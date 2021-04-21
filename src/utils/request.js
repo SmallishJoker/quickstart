@@ -1,3 +1,11 @@
+/*
+ * @Author: joker
+ * @Date: 2021-04-21 21:11:36
+ * @LastEditTime: 2021-04-21 22:45:05
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \quickstart\src\utils\request.js
+ */
 import fetch from 'dva/fetch';
 
 function parseJSON(response) {
@@ -22,7 +30,7 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  return fetch(url, { ...options, ...{ mode: "cors" } })
     .then(checkStatus)
     .then(parseJSON)
     .then(data => ({ data }))

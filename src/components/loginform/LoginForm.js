@@ -33,14 +33,20 @@ class LoginForm extends Component {
         }
         userService.Login({
             method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(userForm),
-        }).then(data => {
-            console.log(data);
+        }).then(res => {
+            hide();
             this.setState({
                 loading: false,
             })
-            hide();
-            this.$message.success("登录成功");
+            if (res.data.status === 200) {
+                this.$message.success(res.data.message);
+            } else {
+                this.$message.warning(res.data.message);
+            }
         })
     };
 
