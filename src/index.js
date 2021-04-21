@@ -1,8 +1,16 @@
+/*
+ * @Author: joker
+ * @Date: 2021-04-21 21:11:36
+ * @LastEditTime: 2021-04-21 21:18:50
+ * @LastEditors: Please set LastEditors
+ * @Description: entry file
+ * @FilePath: \quickstart\src\index.js
+ */
 import dva from 'dva';
 import './index.css';
 import 'font-awesome/less/font-awesome.less';
 import { createBrowserHistory as createHistory } from "history";
-import tools from "./utils/tools";
+import "./utils/tools";
 
 // 1. Initialize
 const app = dva({
