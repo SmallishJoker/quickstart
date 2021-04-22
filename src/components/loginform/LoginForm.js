@@ -32,7 +32,7 @@ class LoginForm extends Component {
             password: this.$md5(values.password),
         }
         userService.Login({
-            method: "post",
+            method: "get",
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -47,6 +47,8 @@ class LoginForm extends Component {
             } else {
                 this.$message.warning(res.data.message);
             }
+        }).catch((err) => {
+            this.$message.error("连接错误");
         })
     };
 
