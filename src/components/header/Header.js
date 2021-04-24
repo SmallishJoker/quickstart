@@ -82,7 +82,11 @@ class Header extends Component {
                             <Col span={10}>
                                 <div className={style["right-wrap"]}>
                                     <div className={style["btn-group"]}>
-                                        <Button type="default" size="default" onClick={this.handleLogin}>
+                                        <Button type="primary" size="default" onClick={this.handleLogin}>
+                                            写文章
+                                        </Button>
+                                        &nbsp;&nbsp;
+                                        <Button type="primary" size="default" onClick={this.handleLogin}>
                                             登 录
                                         </Button>
                                     </div>
