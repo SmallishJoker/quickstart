@@ -1,7 +1,7 @@
 /*
  * @Author: joker
  * @Date: 2021-04-24 17:59:16
- * @LastEditTime: 2021-04-24 21:33:49
+ * @LastEditTime: 2021-04-24 23:15:35
  * @LastEditors: Please set LastEditors
  * @Description: markdown editor
  * @FilePath: \quickstart\src\components\editor\Editormd.js
@@ -22,7 +22,6 @@ class Editormd extends Component {
         this.setState({
             value
         })
-        console.log(value);
     }
 
     render() {
