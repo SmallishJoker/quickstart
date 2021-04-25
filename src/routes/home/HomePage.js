@@ -11,7 +11,6 @@ import { Router, Route, Switch } from 'dva/router'
 import { Layout, Menu, Breadcrumb } from "antd"
 import style from "./homepage.less"
 import HeaderCom from "../../components/header/Header"
-import Editormd from "../../components/editor/Editormd"
 
 const { Header, Content } = Layout
 
@@ -29,7 +28,6 @@ class HomePage extends Component {
                     <HeaderCom />
                 </Header>
                 <Content>
-                    <Editormd />
                 </Content>
             </Layout>
         )

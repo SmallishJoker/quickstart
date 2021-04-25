@@ -21,6 +21,7 @@ class UserLogin extends Component {
             loading: false,
             verifyLoading: false,
             timeCount: 59,
+            loginForm: React.createRef(),
         }
         this.timer = null;
     }
@@ -34,14 +35,28 @@ class UserLogin extends Component {
             loading: true,
         })
         const hide = this.$message.loading("正在为您登录...", 0);
-        console.log('Success:', values);
-        userService.Login().then(data => {
-            console.log(data);
+        let userForm = {
+            username: values.email,
+            password: this.$md5(values.verify),
+        }
+        userService.Login({
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userForm),
+        }).then(res => {
+            hide();
             this.setState({
                 loading: false,
             })
-            hide();
-            this.$message.success("登录成功");
+            if (res.data.status === 200) {
+                this.$message.success(res.data.message);
+            } else {
+                this.$message.warning(res.data.message);
+            }
+        }).catch((err) => {
+            this.$message.error("连接错误");
         })
     };
 
@@ -53,10 +68,27 @@ class UserLogin extends Component {
         this.props.changeForm("login");
     };
 
-    sendVerify = (e) => {
+    sendVerify = () => {
+        let email = this.state.loginForm.current.getFieldValue("email")
+        if (!email) {
+            return;
+        }
         clearInterval(this.timer);
         this.setState({
             verifyLoading: true,
+        })
+        userService.SendEmail({
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email }),
+        }).then(res => {
+            if (res.data.status === 200) {
+                this.$message.success(res.data.message)
+            }
+        }).catch(() => {
+            this.$message.error("验证码发送失败，请输入正确的邮箱地址")
         })
         this.timer = setInterval(() => {
             this.setState({
@@ -65,6 +97,7 @@ class UserLogin extends Component {
             if (this.state.timeCount === 0) {
                 this.setState({
                     verifyLoading: false,
+                    timeCount: 59
                 })
                 clearInterval(this.timer);
             }
@@ -94,6 +127,7 @@ class UserLogin extends Component {
                 </div>
                 <Form
                     {...layout}
+                    ref={this.state.loginForm}
                     name="basic"
                     initialValues={{ remember: true }}
                     onFinish={this.onFinish}

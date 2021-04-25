@@ -32,7 +32,7 @@ class LoginForm extends Component {
             password: this.$md5(values.password),
         }
         userService.Login({
-            method: "get",
+            method: "post",
             headers: {
                 'Content-Type': 'application/json'
             },

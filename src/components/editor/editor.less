@@ -1,15 +1,37 @@
 .editor-wrap {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
 
-    :global {
-        .for-toolbar {
-            background: linear-gradient(to right, #55efc4, #81ecec, #74b9ff);
-        }
-        .for-container .for-editor .for-panel .for-preview {
-            background-color: #fafafa;
-        }
+  :global {
+    .for-toolbar {
+      background: linear-gradient(to right, #55efc4, #81ecec, #74b9ff);
     }
+
+    .for-container .for-editor .for-panel .for-preview {
+      background-color: #fafafa;
+    }
+
+    .for-editor-edit::-webkit-scrollbar,
+    .for-editor-preview::-webkit-scrollbar {
+      width: 6px;
+      height: 4px;
+      background-color: transparent;
+    }
+
+    .for-editor-edit::-webkit-scrollbar-thumb,
+    .for-editor-preview::-webkit-scrollbar-thumb {
+      height: 4px;
+      border-radius: 10px;
+      background: linear-gradient(to bottom, #55efc4, #81ecec, #74b9ff);
+    }
+
+    .for-editor-edit::-webkit-scrollbar-track,
+    .for-editor-preview::-webkit-scrollbar-track {
+      /*滚动槽轨道样式*/
+      border-radius: 0;
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
 
 }

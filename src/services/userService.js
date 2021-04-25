@@ -11,3 +11,7 @@ import request from '../utils/request';
 exports.Login = function (options) {
     return request('http://localhost:3001/login', options);
 }
+
+exports.SendEmail = function (options) {
+    return request('http://localhost:3001/sendemail', options);
+}
