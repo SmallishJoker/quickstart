@@ -30,7 +30,8 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(url, { ...options, ...{ mode: "cors" } })
+  // return fetch(url, { ...options, ...{ mode: "cors" } }) // cors 方式解决跨域,无法携带cookie
+  return fetch(url, { ...options, ...{ credentials: "include" } }) // 后端node express处理跨域,credentials 发送cookie
     .then(checkStatus)
     .then(parseJSON)
     .then(data => ({ data }))

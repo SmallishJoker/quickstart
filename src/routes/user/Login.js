@@ -7,7 +7,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formId: "login",
+            formId: "register",
         }
     }
 

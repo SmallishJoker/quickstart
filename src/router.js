@@ -16,7 +16,7 @@ function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/login" exact component={Login} />
+        <Route path="/register" exact component={Login} />
         <Route path="/write" exact component={WriteArticle} />
         <Route path="/" component={HomePage} />
       </Switch>

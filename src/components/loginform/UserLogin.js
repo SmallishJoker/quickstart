@@ -22,6 +22,7 @@ class UserLogin extends Component {
             verifyLoading: false,
             timeCount: 59,
             loginForm: React.createRef(),
+            loginType: "email"
         }
         this.timer = null;
     }
@@ -36,8 +37,8 @@ class UserLogin extends Component {
         })
         const hide = this.$message.loading("正在为您登录...", 0);
         let userForm = {
-            username: values.email,
-            password: this.$md5(values.verify),
+            email: values.email,
+            verifyCode: values.verify,
         }
         userService.Login({
             method: "post",
@@ -65,7 +66,9 @@ class UserLogin extends Component {
     };
 
     handleRegitster = () => {
-        this.props.changeForm("login");
+        this.props.history.push({
+            pathname: "/register"
+        })
     };
 
     sendVerify = () => {
@@ -118,23 +121,10 @@ class UserLogin extends Component {
         return Promise.resolve();
     }
 
-    render() {
-        return (
-            <div className={style["user-login-wrap"]}>
-                <div className={style["login-header"]}>
-                    <div className={style["title"]}>邮箱登录</div>
-                    <div><i className="fa fa-close" onClick={this.handleClose}></i></div>
-                </div>
-                <Form
-                    {...layout}
-                    ref={this.state.loginForm}
-                    name="basic"
-                    initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
-                    size="large"
-                    className={style["login-form"]}
-                >
+    loginForm = () => {
+        if (this.state.loginType === "email") {
+            return (
+                <div>
                     <Form.Item
                         label=""
                         name="email"
@@ -163,6 +153,63 @@ class UserLogin extends Component {
                             }
                         />
                     </Form.Item>
+                </div>
+            )
+        }
+        return (
+            <div>
+                <Form.Item
+                    label=""
+                    name="username"
+                    rules={[{ required: true, message: '请输入您的账号' }]}
+                >
+                    <Input placeholder="请输入您的账号" />
+                </Form.Item>
+
+                <Form.Item
+                    label=""
+                    name="password"
+                    rules={[{ required: true, message: '请输入密码' }]}
+                >
+                    <Input
+                        placeholder="请输入密码"
+                    />
+                </Form.Item>
+            </div>
+        )
+    }
+
+    changeLogin = () => {
+        if (this.state.loginType === "email") {
+            this.setState({
+                loginType: "account"
+            })
+        } else {
+            this.setState({
+                loginType: "email"
+            })
+        }
+    }
+
+    render() {
+        return (
+            <div className={style["user-login-wrap"]}>
+                <div className={style["login-header"]}>
+                    <div className={style["title"]}>{this.state.loginType === "email" ? "邮箱登录" : "账密登录"}</div>
+                    <div><i className="fa fa-close" onClick={this.handleClose}></i></div>
+                </div>
+                <Form
+                    {...layout}
+                    ref={this.state.loginForm}
+                    name="basic"
+                    initialValues={{ remember: true }}
+                    onFinish={this.onFinish}
+                    onFinishFailed={this.onFinishFailed}
+                    size="large"
+                    className={style["login-form"]}
+                >
+
+                    {this.loginForm()}
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit" loading={this.state.loading} block>
@@ -170,11 +217,13 @@ class UserLogin extends Component {
                         </Button>
                     </Form.Item>
 
+                    <div><a onClick={this.changeLogin}>其他登录方式</a></div>
+
                     <Divider />
 
                     <Form.Item {...tailLayout}>
                         <Button type="default" block onClick={this.handleRegitster}>
-                            其他登录方式
+                            前往注册
                         </Button>
                     </Form.Item>
                 </Form>
