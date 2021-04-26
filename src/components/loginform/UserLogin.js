@@ -53,6 +53,7 @@ class UserLogin extends Component {
             })
             if (res.data.status === 200) {
                 this.$message.success(res.data.message);
+                this.props.closeLogin()
             } else {
                 this.$message.warning(res.data.message);
             }
@@ -217,15 +218,15 @@ class UserLogin extends Component {
                         </Button>
                     </Form.Item>
 
-                    <div><a onClick={this.changeLogin}>其他登录方式</a></div>
+                    <div><a onClick={this.changeLogin}>{this.state.loginType === "email" ? "其他登录方式" : "邮箱登录"}</a></div>
 
-                    <Divider />
+                    {/* <Divider />
 
                     <Form.Item {...tailLayout}>
                         <Button type="default" block onClick={this.handleRegitster}>
                             前往注册
                         </Button>
-                    </Form.Item>
+                    </Form.Item> */}
                 </Form>
             </div>
         )
