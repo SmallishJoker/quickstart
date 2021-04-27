@@ -9,13 +9,27 @@
 import React, { Component } from "react"
 import Editormd from "../../components/editor/Editormd"
 import style from "./writearticle.less"
+import ArticleHeader from "../../components/header/ArticleHeader"
 
 class WriteArticle extends Component {
+
+    state = {
+        editor: React.createRef()
+    }
+
+    handlePublish = () => {
+        console.log(this.state.editor);
+    }
+
     render() {
         return (
             <div className={style["article-wrap"]}>
-                <div> asdf </div>
-                <Editormd />
+                <div className={style["article-header"]}>
+                    <ArticleHeader handlePublish={this.handlePublish} />
+                </div>
+                <div className={style["editor-wrap"]}>
+                    <Editormd ref={this.state.editor} />
+                </div>
             </div>
         )
     }
