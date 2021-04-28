@@ -1,7 +1,7 @@
 /*
  * @Author: joker
  * @Date: 2021-04-24 20:39:23
- * @LastEditTime: 2021-04-24 22:26:00
+ * @LastEditTime: 2021-04-28 20:51:47
  * @LastEditors: Please set LastEditors
  * @Description: write article for markdown
  * @FilePath: \quickstart\src\routes\article\WriteArticle.js
@@ -26,8 +26,9 @@ class WriteArticle extends Component {
                 title: value.title,
                 mark_content: content,
                 brief_content: form.abstract,
-                category_id: form.category._id
+                category_id: form.category.category_id
             },
+            category: form.category,
             tags: form.tags.map(item => ({
                 tag_name: item.label,
                 tag_id: item.value

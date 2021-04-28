@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-27 21:44:00
- * @LastEditTime: 2021-04-27 22:18:36
+ * @LastEditTime: 2021-04-28 20:42:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \quickstart\src\components\article\SelectOption.js
@@ -56,8 +56,7 @@ async function fetchUserList(tag_name) {
     }).then(res => (
         res.data.map(item => ({
             label: item.tag_name,
-            value: item._id,
-            info: item
+            value: item.tag_id,
         }))
     ))
 }

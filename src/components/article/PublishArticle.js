@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-04-27 20:25:56
- * @LastEditTime: 2021-04-27 22:24:47
+ * @LastEditTime: 2021-04-28 20:41:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \quickstart\src\components\article\PublishArticle.js
@@ -90,7 +90,7 @@ class PublishArticle extends Component {
                         <Radio.Group className={style["radio-group"]} size="small" buttonStyle="solid">
                             {
                                 categorys.map(item => {
-                                    return (<Radio.Button value={item} key={item._id}>{item.category_name}</Radio.Button>)
+                                    return (<Radio.Button value={item} key={item.category_id}>{item.category_name}</Radio.Button>)
                                 })
                             }
                         </Radio.Group>
