@@ -9,6 +9,7 @@
 import React from "react"
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
+import articleService from "../../services/articleService"
 
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
     const [fetching, setFetching] = React.useState(false);
@@ -45,19 +46,23 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
     );
 } // Usage of DebounceSelect
 
-async function fetchUserList(username) {
-    console.log('fetching user', username);
-    return fetch('https://randomuser.me/api/?results=5')
-        .then((response) => response.json())
-        .then((body) =>
-            body.results.map((user) => ({
-                label: `${user.name.first} ${user.name.last}`,
-                value: user.login.username,
-            })),
-        );
+async function fetchUserList(tag_name) {
+    return articleService.getTags({
+        method: "post",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tag_name }),
+    }).then(res => (
+        res.data.map(item => ({
+            label: item.tag_name,
+            value: item._id,
+            info: item
+        }))
+    ))
 }
 
-export default function SelectOption() {
+export default function SelectOption(props) {
     const [value, setValue] = React.useState([]);
     return (
         <DebounceSelect
@@ -67,6 +72,7 @@ export default function SelectOption() {
             fetchOptions={fetchUserList}
             onChange={(newValue) => {
                 setValue(newValue);
+                props.handleChange(newValue)
             }}
             style={{
                 width: '100%',

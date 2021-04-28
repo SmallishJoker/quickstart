@@ -10,6 +10,7 @@ import React, { Component } from "react"
 import Editormd from "../../components/editor/Editormd"
 import style from "./writearticle.less"
 import ArticleHeader from "../../components/header/ArticleHeader"
+import articleService from "../../services/articleService"
 
 class WriteArticle extends Component {
 
@@ -17,8 +18,42 @@ class WriteArticle extends Component {
         editor: React.createRef()
     }
 
-    handlePublish = () => {
-        console.log(this.state.editor);
+    handlePublish = (value) => {
+        let form = value.form
+        let content = this.state.editor.current.state.value
+        let article = {
+            article_info: {
+                title: value.title,
+                mark_content: content,
+                brief_content: form.abstract,
+                category_id: form.category._id
+            },
+            tags: form.tags.map(item => ({
+                tag_name: item.label,
+                tag_id: item.value
+            })),
+            is_publish: true
+        }
+
+        console.log(article);
+
+        if (!content) {
+            return this.$message.info("输入文章内容")
+        }
+
+        articleService.saveArticle({
+            method: "post",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(article),
+        }).then(res => {
+            if (res.status === 200) {
+                this.$message.success("发布成功")
+            }
+        }).catch(err => {
+            this.$message.error("error")
+        })
     }
 
     render() {

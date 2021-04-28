@@ -60,11 +60,14 @@ class ArticleHeader extends Component {
         })
     }
 
-    handlePublish = () => {
-        // if (!this.state.title) {
-        //     return this.$message.info("输入文章标题")
-        // }
-        // this.props.handlePublish()
+    handlePublish = (value) => {
+        if (!this.state.title) {
+            return this.$message.info("输入文章标题")
+        }
+        this.props.handlePublish({
+            title: this.state.title,
+            ...value
+        })
     }
 
     uploadCom = () => {
@@ -109,8 +112,8 @@ class ArticleHeader extends Component {
                 <div className={style["title-input"]}>
                     <Input value={this.state.title} onChange={e => this.setState({ title: e.target.value })} placeholder="输入文章标题" />
                     <Button>保存草稿</Button>
-                    <Popover placement="bottomRight" title={null} content={<PublishArticle />} trigger="click">
-                        <Button type="primary" onClick={this.handlePublish}>发布</Button>
+                    <Popover placement="bottomRight" title={null} content={<PublishArticle handlePublish={this.handlePublish} />} trigger="click">
+                        <Button type="primary">发布</Button>
                     </Popover>
                     <div><Avatar icon={<UserOutlined />} /></div>
                 </div>

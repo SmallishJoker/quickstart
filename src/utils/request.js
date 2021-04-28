@@ -34,6 +34,6 @@ export default function request(url, options) {
   return fetch(url, { ...options, ...{ credentials: "include" } }) // 后端node express处理跨域,credentials 发送cookie
     .then(checkStatus)
     .then(parseJSON)
-    .then(data => ({ data }))
+    .then(data => (data))
     .catch(err => ({ err }));
 }

@@ -7,9 +7,12 @@
  * @FilePath: \quickstart\src\components\article\PublishArticle.js
  */
 import React, { Component } from "react"
-import { Form, Button, Radio, Select, Spin } from 'antd';
+import { Form, Button, Radio, Input } from 'antd';
+import articleService from "../../services/articleService"
 import SelectOption from "./SelectOption"
 import style from "./publisharticle.less"
+
+const { TextArea } = Input
 
 const layout = {
     labelCol: { span: 0 },
@@ -22,15 +25,52 @@ const tailLayout = {
 
 class PublishArticle extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            form: React.createRef(),
+            categorys: []
+        }
+    }
+
     onFinish = (values) => {
-        console.log('Success:', values);
+        if (!values.category) {
+            return this.$message.error("选择文章分类")
+        }
+        if (!values.tags) {
+            return this.$message.error("至少选择一个标签")
+        }
+        if (!values.abstract) {
+            return this.$message.error("填写文章摘要")
+        }
+        this.props.handlePublish({
+            form: this.state.form.current.getFieldsValue(true)
+        })
     };
 
     onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
+    handleChange = (value) => {
+        this.state.form.current.setFieldsValue({
+            tags: value
+        })
+    }
+
+    componentWillMount = () => {
+        articleService.getCategorys({
+            method: "get",
+        }).then(res => {
+            this.setState({
+                categorys: res.data
+            })
+            console.log(this.state.categorys);
+        })
+    }
+
     render() {
+        const { categorys } = this.state
         return (
             <div className={style["article-from"]}>
                 <p className={style["title"]}>发布文章</p>
@@ -40,6 +80,7 @@ class PublishArticle extends Component {
                     initialValues={{ remember: true }}
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
+                    ref={this.state.form}
                 >
                     <p className={style["item-title"]}>分类</p>
                     <Form.Item
@@ -47,10 +88,11 @@ class PublishArticle extends Component {
                         name="category"
                     >
                         <Radio.Group className={style["radio-group"]} size="small" buttonStyle="solid">
-                            <Radio.Button value="a">前端</Radio.Button>
-                            <Radio.Button value="b">后端</Radio.Button>
-                            <Radio.Button value="c">面试</Radio.Button>
-                            <Radio.Button value="d">阅读</Radio.Button>
+                            {
+                                categorys.map(item => {
+                                    return (<Radio.Button value={item} key={item._id}>{item.category_name}</Radio.Button>)
+                                })
+                            }
                         </Radio.Group>
                     </Form.Item>
 
@@ -60,16 +102,16 @@ class PublishArticle extends Component {
                         label=""
                         name="tags"
                     >
-                        <SelectOption />
+                        <SelectOption handleChange={this.handleChange} />
                     </Form.Item>
 
                     <p className={style["item-title"]}>文章摘要</p>
 
                     <Form.Item
                         label=""
-                        name="category"
+                        name="abstract"
                     >
-                        <SelectOption />
+                        <TextArea rows={5} />
                     </Form.Item>
 
                     <Form.Item>

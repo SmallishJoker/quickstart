@@ -51,11 +51,11 @@ class UserLogin extends Component {
             this.setState({
                 loading: false,
             })
-            if (res.data.status === 200) {
-                this.$message.success(res.data.message);
+            if (res.status === 200) {
+                this.$message.success(res.message);
                 this.props.closeLogin()
             } else {
-                this.$message.warning(res.data.message);
+                this.$message.warning(res.message);
             }
         }).catch((err) => {
             this.$message.error("连接错误");
@@ -88,8 +88,8 @@ class UserLogin extends Component {
             },
             body: JSON.stringify({ email }),
         }).then(res => {
-            if (res.data.status === 200) {
-                this.$message.success(res.data.message)
+            if (res.status === 200) {
+                this.$message.success(res.message)
             }
         }).catch(() => {
             this.$message.error("验证码发送失败，请输入正确的邮箱地址")
