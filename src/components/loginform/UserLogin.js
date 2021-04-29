@@ -42,9 +42,6 @@ class UserLogin extends Component {
         }
         userService.Login({
             method: "post",
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(userForm),
         }).then(res => {
             hide();
@@ -52,6 +49,7 @@ class UserLogin extends Component {
                 loading: false,
             })
             if (res.status === 200) {
+                localStorage.setItem("token", res.token)
                 this.$message.success(res.message);
                 this.props.closeLogin()
             } else {

@@ -31,7 +31,12 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   // return fetch(url, { ...options, ...{ mode: "cors" } }) // cors 方式解决跨域,无法携带cookie
-  return fetch(url, { ...options, ...{ credentials: "include" } }) // 后端node express处理跨域,credentials 发送cookie
+  return fetch(url, {
+    ...options, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    }, ...{ credentials: "include" }
+  }) // 后端node express处理跨域,credentials 发送cookie
     .then(checkStatus)
     .then(parseJSON)
     .then(data => (data))

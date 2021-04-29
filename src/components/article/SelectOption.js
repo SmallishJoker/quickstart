@@ -49,16 +49,17 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
 async function fetchUserList(tag_name) {
     return articleService.getTags({
         method: "post",
-        headers: {
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify({ tag_name }),
-    }).then(res => (
-        res.data.map(item => ({
-            label: item.tag_name,
-            value: item.tag_id,
-        }))
-    ))
+    }).then(res => {
+        if (res.status === 200) {
+            return res.data.map(item => ({
+                label: item.tag_name,
+                value: item.tag_id,
+            }))
+        }
+    }).catch(err => {
+        this.$message.error("服务器错误")
+    })
 }
 
 export default function SelectOption(props) {

@@ -60,12 +60,15 @@ class PublishArticle extends Component {
 
     componentWillMount = () => {
         articleService.getCategorys({
-            method: "get",
+            method: "GET",
         }).then(res => {
-            this.setState({
-                categorys: res.data
-            })
-            console.log(this.state.categorys);
+            if (res.status === 200) {
+                this.setState({
+                    categorys: res.data
+                })
+            } 
+        }).catch(err => {
+            this.$message.error("服务器错误")
         })
     }
 
