@@ -7,8 +7,7 @@
  * @FilePath: \quickstart\src\routes\home\HomePage.js
  */
 import React, { Component } from 'react'
-import { Router, Route, Switch } from 'dva/router'
-import { Layout, Menu, Breadcrumb } from "antd"
+import { Layout } from "antd"
 import style from "./homepage.less"
 import HeaderCom from "../../components/header/Header"
 

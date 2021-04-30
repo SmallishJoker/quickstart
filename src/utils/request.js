@@ -7,12 +7,18 @@
  * @FilePath: \quickstart\src\utils\request.js
  */
 import fetch from 'dva/fetch';
+import { message } from "antd";
 
 function parseJSON(response) {
   return response.json();
 }
 
 function checkStatus(response) {
+  
+  if (response.status === 401) {
+    message.error("用户未登录")
+  }
+
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -30,11 +36,10 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  // return fetch(url, { ...options, ...{ mode: "cors" } }) // cors 方式解决跨域,无法携带cookie
   return fetch(url, {
     ...options, headers: {
       'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('token')
+      'Authorization': localStorage.getItem('token') || undefined
     }, ...{ credentials: "include" }
   }) // 后端node express处理跨域,credentials 发送cookie
     .then(checkStatus)

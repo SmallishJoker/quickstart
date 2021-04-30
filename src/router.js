@@ -7,18 +7,18 @@
  * @FilePath: \quickstart\src\router.js
  */
 import React from 'react';
-import { Router, Route, Switch } from 'dva/router';
-import HomePage from "./routes/home/HomePage";
-import Login from './routes/user/Login';
-import WriteArticle from "./routes/article/WriteArticle"
+import { Router, Switch } from 'dva/router';
+import Atuh from './utils/auth'
+import routerMap from "./routes/index"
 
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/register" exact component={Login} />
+        {/* <Route path="/register" exact component={Login} />
         <Route path="/write" exact component={WriteArticle} />
-        <Route path="/" component={HomePage} />
+        <Route path="/" component={HomePage} /> */}
+        <Atuh routerConfig={routerMap} />
       </Switch>
     </Router>
   );

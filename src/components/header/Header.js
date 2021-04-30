@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 import style from "./header.less"
 import { Row, Col, Button, Modal } from "antd"
 import UserLogin from "../../components/loginform/UserLogin"
@@ -23,7 +24,8 @@ class Header extends Component {
                     id: "doc"
                 },
             ],
-            isModalVisible: false
+            isModalVisible: false,
+            isLogin: Boolean(localStorage.getItem("token"))
         }
     }
 
@@ -35,8 +37,21 @@ class Header extends Component {
 
     handleLogin = () => {
         this.setState({
-            isModalVisible: true
+            isModalVisible: true,
         })
+    }
+
+    handleWrite = () => {
+        if (Boolean(localStorage.getItem('token'))) {
+            this.props.history.push({
+                pathname: "/write"
+            })
+        } else {
+            this.setState({
+                isModalVisible: true
+            })
+        }
+
     }
 
     handleOk = () => {
@@ -51,7 +66,8 @@ class Header extends Component {
 
     closeLogin = () => {
         this.setState({
-            isModalVisible: false
+            isModalVisible: false,
+            isLogin: true
         })
     }
 
@@ -82,13 +98,16 @@ class Header extends Component {
                             <Col span={10}>
                                 <div className={style["right-wrap"]}>
                                     <div className={style["btn-group"]}>
-                                        <Button type="primary" size="default" onClick={this.handleLogin}>
+                                        <Button type="primary" size="default" onClick={this.handleWrite}>
                                             写文章
                                         </Button>
-                                        &nbsp;&nbsp;
-                                        <Button type="primary" size="default" onClick={this.handleLogin}>
-                                            登 录
-                                        </Button>
+                                        {
+                                            !this.state.isLogin && (
+                                                <Button type="primary" size="default" onClick={this.handleLogin}>
+                                                    登 录
+                                                </Button>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </Col>
@@ -112,4 +131,4 @@ class Header extends Component {
     }
 }
 
-export default Header
+export default withRouter(Header)

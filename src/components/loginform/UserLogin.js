@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Form, Input, Button, Divider } from 'antd'
+import { Form, Input, Button } from 'antd'
 import style from "./userlogin.less"
 import { withRouter } from "react-router-dom"
 

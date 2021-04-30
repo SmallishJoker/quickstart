@@ -18,10 +18,6 @@ const layout = {
     labelCol: { span: 0 },
     wrapperCol: { span: 24 },
 };
-const tailLayout = {
-    wrapperCol: { offset: 18, span: 6 },
-};
-
 
 class PublishArticle extends Component {
 
@@ -58,7 +54,7 @@ class PublishArticle extends Component {
         })
     }
 
-    componentWillMount = () => {
+    UNSAFE_componentWillMount = () => {
         articleService.getCategorys({
             method: "GET",
         }).then(res => {
